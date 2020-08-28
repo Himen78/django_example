@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Like Post App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <p id="message"></p>
+
+    {% for post in posts %}
+    <div class = 'container jumbotron'>
+
+    <h3>{{ forloop.counter }}) {{ post.post_heading }}</h3>
+
+    <p>{{ post.post_text }} </p>
+
+    <a class="likebutton btn btn-primary btn-lg" id="like{{post.id}}" href="#" data-catid="{{ post.id }}">Like</a>
+    </div>
+    {% endfor %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+    $('.likebutton').click(function(){
+    var catid;
+    catid = $(this).attr("data-catid");
+    debugger;
+    $.ajax(
+    {
+        type:"GET",
+        url: "/likepost",
+        data:{
+                 post_id: catid
+        },
+        success: function( data ) 
+        {
+            $( '#like'+ catid ).remove();
+            $( '#message' ).text(data);
+        }
+     })
+});
+</script>
+</body>
+</html>
